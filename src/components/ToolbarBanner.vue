@@ -44,6 +44,9 @@ export default defineComponent({
     background-image: radial-gradient(circle at 25%, hsla(0, 0%, 100%, 0.2), rgba(50, 50, 50, 0.2) 80%);
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
+    position: sticky;
+    top: 0;
+    z-index: 999;
 
     header {
         padding: 0 16px;

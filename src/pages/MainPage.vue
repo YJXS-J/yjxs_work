@@ -25,22 +25,25 @@ export default defineComponent({
 
 <style scoped lang="scss">
 #main {
-    background-image: url(http://localhost:8081/img/wallpaper.2e317211.webp);
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-start: 0;
-    inline-size: 100%;
-    block-size: 100%;
-    background-color: #32a2f6;
-    background-position: 50%;
-    background-size: cover;
-    left: 0;
-    right: 0;
-    top: 0;
-    width: 100%;
-    height: 900px;
-    z-index: -1;
     padding-top: 75px;
+
+    .main-background {
+        background-image: url(@/assets/wallpaper.webp);
+        position: absolute;
+        inset-inline-start: 0;
+        inset-block-start: 0;
+        inline-size: 100%;
+        block-size: 100%;
+        background-color: #32a2f6;
+        background-position: 50%;
+        background-size: cover;
+        left: 0;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
 
     .main-content {
         margin: 0 auto;
