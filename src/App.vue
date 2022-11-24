@@ -26,4 +26,25 @@ export default class App extends Vue {}
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+a {
+    text-decoration: none;
+    color: black;
+    &:hover {
+        text-decoration: none;
+        cursor: pointer;
+    }
+    &:link {
+        text-decoration: none;
+        cursor: pointer;
+    }
+    &:visited {
+        text-decoration: overline;
+        cursor: pointer;
+    }
+    &:active {
+        text-decoration: overline;
+        cursor: pointer;
+    }
+}
 </style>
