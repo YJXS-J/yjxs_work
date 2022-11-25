@@ -4,4 +4,5 @@ module.exports = defineConfig({
     lintOnSave: false,
     // 基本路径
     publicPath: './',
+    parallel: false,
 });
