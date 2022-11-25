@@ -6,18 +6,16 @@
                 <template v-slot:moduleSlot>
                     <div class="display-grid3">
                         <a class="a-instruction" href="weixin://dl/business/?t=QDZVQEO2z9f" target="_block">粤康码</a>
-                        <a
-                            class="a-instruction"
-                            href="weixin://dl/business/?t=QDZVQEO2z9f/operation_plus/pages/yiqing/daka/worker/inspector/fast-result/index?scene=id%3D2ZYWBH4%2Ccp%3D0"
-                            target="_block"
-                        >
-                            粤康码2
-                        </a>
                     </div>
                 </template>
             </module-slot>
-            <module-slot pTitle="快捷指令" class="w1">
-                <template v-slot:moduleSlot>123</template>
+            <module-slot pTitle="倒计时" class="w1">
+                <template v-slot:moduleSlot>
+                    <div class="display-grid1">
+                        <div>已上班：{{ goToWorkTime }}</div>
+                        <div>距离下班还有：{{ afterWorkTime }}</div>
+                    </div>
+                </template>
             </module-slot>
         </div>
     </div>
@@ -29,7 +27,41 @@ import { defineComponent, ref, onMounted } from 'vue';
 export default defineComponent({
     name: 'MainPage',
     setup() {
-        return {};
+        const goToWorkTime = ref('--');
+        const afterWorkTime = ref('--');
+        function getTime() {
+            var nowDate = new Date();
+            // 获取现在时间的时间戳
+            var yy = nowDate.getFullYear();
+            var mm = nowDate.getMonth() + 1;
+            var dd = nowDate.getDate();
+            // 上班时间09点
+            var time1 = new Date(yy + '/' + mm + '/' + dd + ' 09:00:00').getTime();
+            // 下班时间18点
+            var time2 = new Date(yy + '/' + mm + '/' + dd + ' 18:00:00').getTime();
+            // 当前时间戳
+            var nowTime = nowDate.getTime();
+
+            goToWorkTime.value = count(time1, nowTime);
+            afterWorkTime.value = count(nowTime, time2);
+        }
+
+        function count(time1: number, time2: number) {
+            var time = (time2 - time1) / 1000 / 60 / 60;
+            var h = Math.floor(time);
+            var m = Math.floor((time % 1) * 60);
+            var s = Math.floor((((time % 1) * 60) % 1) * 60);
+
+            return h + '小时' + m + '分钟' + s + '秒';
+        }
+
+        getTime();
+
+        setInterval(() => {
+            getTime();
+        }, 1000);
+
+        return { goToWorkTime, afterWorkTime };
     },
 });
 </script>
@@ -72,6 +104,13 @@ export default defineComponent({
                 font-size: 14px;
                 border-radius: 2px;
             }
+        }
+
+        .display-grid1 {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            row-gap: 12px;
+            column-gap: 12px;
         }
     }
 }
