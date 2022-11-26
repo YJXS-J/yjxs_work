@@ -2,18 +2,18 @@
     <div id="main">
         <div class="main-background"></div>
         <div class="main-content">
-            <module-slot pTitle="快捷指令" class="w2">
-                <template v-slot:moduleSlot>
-                    <div class="display-grid3">
-                        <a class="a-instruction" href="weixin://dl/business/?t=QDZVQEO2z9f" target="_block">粤康码</a>
-                    </div>
-                </template>
-            </module-slot>
             <module-slot pTitle="倒计时" class="w1">
                 <template v-slot:moduleSlot>
                     <div class="display-grid1">
                         <div>已上班：{{ goToWorkTime }}</div>
                         <div>距离下班还有：{{ afterWorkTime }}</div>
+                    </div>
+                </template>
+            </module-slot>
+             <module-slot pTitle="快捷指令" class="w2">
+                <template v-slot:moduleSlot>
+                    <div class="display-grid3">
+                        <a class="a-instruction" href="weixin://dl/business/?t=QDZVQEO2z9f" target="_block">粤康码</a>
                     </div>
                 </template>
             </module-slot>
