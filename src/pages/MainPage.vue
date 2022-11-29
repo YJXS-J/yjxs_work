@@ -2,11 +2,11 @@
     <div id="main">
         <div class="main-background"></div>
         <div class="main-content">
-            <module-slot pTitle="Time" class="w1">
+            <module-slot pTitle1="Time" class="w1">
                 <template v-slot:moduleSlot>
                     <div class="df-column">
                         <div class="icon-txt-box">
-                            <img src="@/assets/work-icon.svg" alt="" />
+                            <img src="@/assets/工作.svg" alt="" />
                             <div class="icon-txt-1">
                                 <span class="icon-txt1">今天已认真工作</span>
                                 <span class="icon-txt2">{{ goToWorkTime }}</span>
@@ -14,32 +14,32 @@
                         </div>
 
                         <div class="icon-txt-box">
-                            <img src="@/assets/off-duty-icon.svg" alt="" />
+                            <img src="@/assets/生活休闲.svg" alt="" />
                             <div class="icon-txt-1">
-                                <span class="icon-txt1">距离下班还有</span>
-                                <span class="icon-txt2">{{ afterWorkTime }}</span>
+                                <span class="icon-txt1">距离开始午休还有</span>
+                                <span class="icon-txt2">{{ lunchBreak }}</span>
                             </div>
                         </div>
 
                         <div class="icon-txt-box">
-                            <img src="@/assets/work-icon.svg" alt="" />
-                            <div class="icon-txt-1">
-                                <span class="icon-txt1">距离午休还有</span>
-                                <span class="icon-txt2">{{ afterWorkTime }}</span>
-                            </div>
-                        </div>
-
-                        <div class="icon-txt-box">
-                            <img src="@/assets/off-duty-icon.svg" alt="" />
+                            <img src="@/assets/闹钟.svg" alt="" />
                             <div class="icon-txt-1">
                                 <span class="icon-txt1">距离午休结束还有</span>
+                                <span class="icon-txt2">{{ lunchBreakOver }}</span>
+                            </div>
+                        </div>
+
+                        <div class="icon-txt-box">
+                            <img src="@/assets/咖啡.svg" alt="" />
+                            <div class="icon-txt-1">
+                                <span class="icon-txt1">距离下班还有</span>
                                 <span class="icon-txt2">{{ afterWorkTime }}</span>
                             </div>
                         </div>
                     </div>
                 </template>
             </module-slot>
-            <module-slot pTitle="Shortcut" class="w2">
+            <module-slot pTitle1="Shortcut" class="w2">
                 <template v-slot:moduleSlot>
                     <div class="display-grid3">
                         <a class="a-instruction" href="weixin://dl/business/?t=QDZVQEO2z9f" target="_block">粤康码</a>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="main-content">
-            <module-slot pTitle="Weather" class="w2">
+            <module-slot pTitle1="Weather" :pTitle2="'更新时间：' + updateTime" class="w2">
                 <template v-slot:moduleSlot>
                     <div class="display-grid1">
                         <div>今天已认真工作：{{ goToWorkTime }}</div>
@@ -57,7 +57,7 @@
                     </div>
                 </template>
             </module-slot>
-            <module-slot pTitle="Shortcut" class="w1">
+            <module-slot pTitle1="Shortcut" class="w1">
                 <template v-slot:moduleSlot>
                     <div class="display-grid3">
                         <a class="a-instruction" href="weixin://dl/business/?t=QDZVQEO2z9f" target="_block">粤康码</a>
@@ -70,12 +70,18 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
+import httpRequest from '@/api/axios';
 
 export default defineComponent({
     name: 'MainPage',
     setup() {
         const goToWorkTime = ref('--');
+        const lunchBreak = ref('--');
+        const lunchBreakOver = ref('--');
         const afterWorkTime = ref('--');
+        const updateTime = ref('--');
+        var sitBackState = false;
+
         function getTime() {
             var nowDate = new Date();
             // 获取现在时间的时间戳
@@ -88,9 +94,33 @@ export default defineComponent({
             var time2 = new Date(yy + '/' + mm + '/' + dd + ' 18:00:00').getTime();
             // 当前时间戳
             var nowTime = nowDate.getTime();
+            // 午休时间12点
+            var time3 = new Date(yy + '/' + mm + '/' + dd + ' 12:00:00').getTime();
+            // 午休结束时间14点
+            var time4 = new Date(yy + '/' + mm + '/' + dd + ' 14:00:00').getTime();
 
-            goToWorkTime.value = count(time1, nowTime);
-            afterWorkTime.value = count(nowTime, time2);
+            if (time3 - nowTime >= 0) {
+                sitBackState = false;
+                lunchBreak.value = count(nowTime, time3);
+            } else {
+                time1 += 1000 * 3600 * 2;
+                sitBackState = true;
+                lunchBreak.value = '今日午休已结束';
+            }
+
+            if (time2 - nowTime >= 0) {
+                goToWorkTime.value = count(time1, nowTime);
+                afterWorkTime.value = count(nowTime, time2);
+            } else {
+                goToWorkTime.value = '今日已经下班了';
+                afterWorkTime.value = '今日已经下班了';
+            }
+
+            if (time4 - nowTime >= 0) {
+                lunchBreakOver.value = count(nowTime, time4);
+            } else {
+                lunchBreakOver.value = '今日午休已结束';
+            }
         }
 
         function count(time1: number, time2: number) {
@@ -108,7 +138,22 @@ export default defineComponent({
             getTime();
         }, 1000);
 
-        return { goToWorkTime, afterWorkTime };
+        httpRequest({
+            url: 'https://devapi.qweather.com/v7/weather/now?location=101010100&key=b347e2035586440fb236491d9457246c',
+            method: 'GET',
+        }).then(
+            (res: any) => {
+                if (res.code == '200') {
+                    console.log(res);
+                    updateTime.value = res.updateTime;
+                }
+            },
+            (error: any) => {
+                console.log(error);
+            }
+        );
+
+        return { goToWorkTime, afterWorkTime, lunchBreak, lunchBreakOver };
     },
 });
 </script>

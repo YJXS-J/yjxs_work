@@ -1,5 +1,8 @@
 import { createApp } from 'vue';
+import ArcoVue from '@arco-design/web-vue';
 import App from './App.vue';
+import '@arco-design/web-vue/dist/arco.css';
+
 const app = createApp(App);
 
 import Router from './router';
@@ -10,5 +13,6 @@ import ModuleSlot from './components/ModuleSlot.vue';
 app.component('ModuleSlot', ModuleSlot);
 
 app.use(Router);
+app.use(ArcoVue);
 
 app.mount('#app');
