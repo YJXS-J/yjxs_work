@@ -2,15 +2,62 @@
     <div id="main">
         <div class="main-background"></div>
         <div class="main-content">
-            <module-slot pTitle="倒计时" class="w1">
+            <module-slot pTitle="Time" class="w1">
+                <template v-slot:moduleSlot>
+                    <div class="df-column">
+                        <div class="icon-txt-box">
+                            <img src="@/assets/work-icon.svg" alt="" />
+                            <div class="icon-txt-1">
+                                <span class="icon-txt1">今天已认真工作</span>
+                                <span class="icon-txt2">{{ goToWorkTime }}</span>
+                            </div>
+                        </div>
+
+                        <div class="icon-txt-box">
+                            <img src="@/assets/off-duty-icon.svg" alt="" />
+                            <div class="icon-txt-1">
+                                <span class="icon-txt1">距离下班还有</span>
+                                <span class="icon-txt2">{{ afterWorkTime }}</span>
+                            </div>
+                        </div>
+
+                        <div class="icon-txt-box">
+                            <img src="@/assets/work-icon.svg" alt="" />
+                            <div class="icon-txt-1">
+                                <span class="icon-txt1">距离午休还有</span>
+                                <span class="icon-txt2">{{ afterWorkTime }}</span>
+                            </div>
+                        </div>
+
+                        <div class="icon-txt-box">
+                            <img src="@/assets/off-duty-icon.svg" alt="" />
+                            <div class="icon-txt-1">
+                                <span class="icon-txt1">距离午休结束还有</span>
+                                <span class="icon-txt2">{{ afterWorkTime }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </module-slot>
+            <module-slot pTitle="Shortcut" class="w2">
+                <template v-slot:moduleSlot>
+                    <div class="display-grid3">
+                        <a class="a-instruction" href="weixin://dl/business/?t=QDZVQEO2z9f" target="_block">粤康码</a>
+                    </div>
+                </template>
+            </module-slot>
+        </div>
+
+        <div class="main-content">
+            <module-slot pTitle="Weather" class="w2">
                 <template v-slot:moduleSlot>
                     <div class="display-grid1">
-                        <div>已上班：{{ goToWorkTime }}</div>
+                        <div>今天已认真工作：{{ goToWorkTime }}</div>
                         <div>距离下班还有：{{ afterWorkTime }}</div>
                     </div>
                 </template>
             </module-slot>
-             <module-slot pTitle="快捷指令" class="w2">
+            <module-slot pTitle="Shortcut" class="w1">
                 <template v-slot:moduleSlot>
                     <div class="display-grid3">
                         <a class="a-instruction" href="weixin://dl/business/?t=QDZVQEO2z9f" target="_block">粤康码</a>
@@ -86,6 +133,8 @@ export default defineComponent({
     .main-content {
         max-width: 1380px;
         margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
 
         .display-grid3 {
             display: grid;
@@ -109,7 +158,7 @@ export default defineComponent({
         .display-grid1 {
             display: grid;
             grid-template-columns: repeat(1, minmax(0, 1fr));
-            row-gap: 12px;
+            row-gap: 30px;
             column-gap: 12px;
         }
     }
@@ -118,7 +167,6 @@ export default defineComponent({
 @media (max-width: 759px) {
     .main-content {
         width: 100%;
-        display: flex;
         flex-direction: column;
         align-items: center;
         .w1 {
@@ -132,7 +180,6 @@ export default defineComponent({
 @media (min-width: 760px) and (max-width: 1164px) {
     .main-content {
         width: 690px;
-        display: flex;
         justify-content: space-between;
         .w1 {
             width: 315px;
@@ -145,13 +192,51 @@ export default defineComponent({
 @media (min-width: 1165px) {
     .main-content {
         width: 1035px;
-        display: flex;
         justify-content: space-between;
         .w1 {
             width: 315px;
         }
         .w2 {
             width: 660px;
+        }
+    }
+}
+
+.df-column {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+}
+
+.icon-txt-box {
+    display: flex;
+    align-items: center;
+
+    img {
+        width: 40px;
+        height: 40px;
+        display: block;
+        margin-right: 16px;
+    }
+
+    .icon-txt-1 {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+
+        .icon-txt1 {
+            font-size: 21px;
+            font-weight: 600;
+            line-height: 25px;
+            color: #000;
+        }
+        .icon-txt2 {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+            color: #515154;
         }
     }
 }
