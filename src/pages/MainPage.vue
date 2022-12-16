@@ -42,7 +42,13 @@
             <module-slot pTitle1="Shortcut" class="w2">
                 <template v-slot:moduleSlot>
                     <div class="display-grid3">
-                        <a class="a-instruction" href="weixin://dl/business/?t=QDZVQEO2z9f" target="_block">粤康码</a>
+                        <a
+                            class="a-instruction"
+                            href="weixin://dl/business/?t=QDZVQEO2z9f"
+                            target="_block"
+                        >
+                            粤康码
+                        </a>
                     </div>
                 </template>
             </module-slot>
@@ -60,7 +66,13 @@
             <module-slot pTitle1="Shortcut" class="w1">
                 <template v-slot:moduleSlot>
                     <div class="display-grid3">
-                        <a class="a-instruction" href="weixin://dl/business/?t=QDZVQEO2z9f" target="_block">粤康码</a>
+                        <a
+                            class="a-instruction"
+                            href="weixin://dl/business/?t=QDZVQEO2z9f"
+                            target="_block"
+                        >
+                            粤康码
+                        </a>
                     </div>
                 </template>
             </module-slot>
@@ -102,6 +114,9 @@ export default defineComponent({
             if (time3 - nowTime >= 0) {
                 sitBackState = false;
                 lunchBreak.value = count(nowTime, time3);
+            } else if (time3 + 1000 * 3600 * 2 - nowTime >= 0) {
+                sitBackState = false;
+                lunchBreak.value = '开始午休了';
             } else {
                 time1 += 1000 * 3600 * 2;
                 sitBackState = true;
