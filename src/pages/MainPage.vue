@@ -138,20 +138,20 @@ export default defineComponent({
             getTime();
         }, 1000);
 
-        httpRequest({
-            url: 'https://devapi.qweather.com/v7/weather/now?location=101010100&key=b347e2035586440fb236491d9457246c',
-            method: 'GET',
-        }).then(
-            (res: any) => {
-                if (res.code == '200') {
-                    console.log(res);
-                    updateTime.value = res.updateTime;
-                }
-            },
-            (error: any) => {
-                console.log(error);
-            }
-        );
+        // httpRequest({
+        //     url: 'https://devapi.qweather.com/v7/weather/now?location=101010100&key=b347e2035586440fb236491d9457246c',
+        //     method: 'GET',
+        // }).then(
+        //     (res: any) => {
+        //         if (res.code == '200') {
+        //             console.log(res);
+        //             updateTime.value = res.updateTime;
+        //         }
+        //     },
+        //     (error: any) => {
+        //         console.log(error);
+        //     }
+        // );
 
         return { goToWorkTime, afterWorkTime, lunchBreak, lunchBreakOver };
     },
