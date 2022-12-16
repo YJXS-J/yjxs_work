@@ -92,7 +92,6 @@ export default defineComponent({
         const lunchBreakOver = ref('--');
         const afterWorkTime = ref('--');
         const updateTime = ref('--');
-        var sitBackState = false;
 
         function getTime() {
             var nowDate = new Date();
@@ -112,14 +111,12 @@ export default defineComponent({
             var time4 = new Date(yy + '/' + mm + '/' + dd + ' 14:00:00').getTime();
 
             if (time3 - nowTime >= 0) {
-                sitBackState = false;
                 lunchBreak.value = count(nowTime, time3);
             } else if (time3 + 1000 * 3600 * 2 - nowTime >= 0) {
-                sitBackState = false;
+                time1 += nowTime - time3;
                 lunchBreak.value = '开始午休了';
             } else {
                 time1 += 1000 * 3600 * 2;
-                sitBackState = true;
                 lunchBreak.value = '今日午休已结束';
             }
 
